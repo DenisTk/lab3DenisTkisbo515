@@ -1,5 +1,7 @@
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -7,14 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class TestServlet extends HttpServlet{
     private Spisok list=new Spisok();
-    {list.add("ovovo");}
+
     private Configuration cfg=new Configuration(Configuration.VERSION_2_3_26); {
-        list.add("Пример");
         try{
             cfg.setTemplateLoader(new FileTemplateLoader(new File(".")));
         } catch (IOException e){
@@ -23,15 +27,11 @@ public class TestServlet extends HttpServlet{
 
     }
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        StringBuilder buf=new StringBuilder();
-        List<ToDoList> items=list.view();
-        for(ToDoList i:items){
-            buf.append("<li>"+i.getMessage()+"</li>\n");
-        }
+
         resp.setCharacterEncoding("UTF-8");
 
 
-        resp.getWriter().write("" +
+       /* resp.getWriter().write("" +
                 "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
@@ -48,11 +48,25 @@ public class TestServlet extends HttpServlet{
                 " </form>\n" +
                 "\n" +
                 "</body>\n" +
-                "</html>");
+                "</html>");*/
+             try{
+                 Template t=cfg.getTemplate("toDo.html");
+                 Map<String,Object> map=new HashMap<>();
+
+                 map.put("tasks", list.view());
+                 t.process(map,resp.getWriter());
+             } catch (Exception e){
+                 e.printStackTrace();
+                 resp.sendError(500);
+             }
     }
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException{
         String what=req.getParameter("task");
-        list.add(what);
+        try {
+            list.add(what);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         resp.sendRedirect("/");
     }
 

@@ -5,16 +5,14 @@
     <title>Список дел</title>
 </head>
 <body>
-<form>
+<form method="post">
     Задача:<input name="task">
     <input type="submit" value="Добавить">
     <ol>
-        <li>
-            Проснуться
-        </li>
-        <li>
-            Уснуть
-        </li>
+        <#list tasks as task>
+            <li>${task.message}</li>
+        </#list>
+
     </ol>
 </form>
 

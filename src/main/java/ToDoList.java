@@ -1,5 +1,14 @@
+import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ToDoList {
+
     private int id;
     private String message;
     public ToDoList(int id, String message){
@@ -10,6 +19,7 @@ public class ToDoList {
     public String getMessage() {
         return message;
     }
+
 
     public void setMessage(String message) {
         this.message = message;
