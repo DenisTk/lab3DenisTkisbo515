@@ -19,8 +19,15 @@ public class Spisok {
         ind=1;
     }
 
-    public void del(int index){
-        ar.remove(index);
+    public void del(int id) throws Exception{
+//        ar.remove(index);
+        try(Connection c= DriverManager.getConnection(JBC_H2_TEST)){
+            try(PreparedStatement ps=c.prepareStatement("delete from todo where id=?")){
+                ps.setInt(1,id);
+                ps.executeUpdate();
+            }
+
+        }
     }
 
     public void add(String text) throws Exception{

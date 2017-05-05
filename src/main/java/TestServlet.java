@@ -61,9 +61,17 @@ public class TestServlet extends HttpServlet{
              }
     }
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException{
-        String what=req.getParameter("task");
+
+        String uri=req.getRequestURI();
         try {
-            list.add(what);
+            if (uri.equals("/delete")) {
+                String toid=req.getParameter("id");
+                int id=Integer.parseInt(toid);
+                list.del(id);
+            } else {
+                String what=req.getParameter("task");
+                list.add(what);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

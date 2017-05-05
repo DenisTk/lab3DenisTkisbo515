@@ -17,7 +17,7 @@ public class ToDoList {
     }
 
     public String getMessage() {
-        return message;
+        return message == null ? "" : message;
     }
 
 

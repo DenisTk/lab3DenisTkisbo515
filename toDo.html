@@ -10,8 +10,16 @@
     <input type="submit" value="Добавить">
     <ol>
         <#list tasks as task>
-            <li>${task.message}</li>
+            <li>
+                <form method ="post" action="delete">
+                    ${task.message}
+                    <input type="submit" value="удалить">
+                    <input name="id" type="hidden" value="${task.id}">
+
+                </form>
+            </li>
         </#list>
+
 
     </ol>
 </form>
